@@ -1,0 +1,57 @@
+# Minimal test showing compilation failure for java_library using nashorn
+
+```
+[~/work/bazel-nashorn (master)]$ bazel build //...
+INFO: Analysed 2 targets (0 packages loaded).
+INFO: Found 2 targets...
+ERROR: /home/brent/work/bazel-nashorn/src/test/BUILD:8:1: Building src/test/libtest.jar (1 source file) failed (Exit 1)
+src/test/Main.java:3: error: package jdk.nashorn.api.scripting does not exist
+import jdk.nashorn.api.scripting.NashornScriptEngine;
+                                ^
+src/test/Main.java:4: error: package jdk.nashorn.api.scripting does not exist
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+                                ^
+src/test/Main.java:15: error: cannot find symbol
+        final NashornScriptEngine engine = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
+              ^
+  symbol:   class NashornScriptEngine
+  location: class Main
+src/test/Main.java:15: error: cannot find symbol
+        final NashornScriptEngine engine = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
+                                            ^
+  symbol:   class NashornScriptEngine
+  location: class Main
+INFO: Elapsed time: 0.376s, Critical Path: 0.12s
+INFO: 0 processes.
+FAILED: Build did NOT complete successfully
+
+[~/work/bazel-nashorn (master)]$ sudo pacman -U /var/cache/pacman/pkg/bazel-0.16.0-1-x86_64.pkg.tar.xz 
+loading packages...
+warning: downgrading package bazel (0.16.1-1 => 0.16.0-1)
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (1) bazel-0.16.0-1
+
+Total Installed Size:  224.15 MiB
+Net Upgrade Size:        3.03 MiB
+
+:: Proceed with installation? [Y/n] 
+(1/1) checking keys in keyring                                                                                      [######################################################################] 100%
+(1/1) checking package integrity                                                                                    [######################################################################] 100%
+(1/1) loading package files                                                                                         [######################################################################] 100%
+(1/1) checking for file conflicts                                                                                   [######################################################################] 100%
+(1/1) checking available disk space                                                                                 [######################################################################] 100%
+:: Processing package changes...
+(1/1) downgrading bazel                                                                                             [######################################################################] 100%
+:: Running post-transaction hooks...
+(1/1) Arming ConditionNeedsUpdate...
+
+[~/work/bazel-nashorn (master)]$ bazel build //...
+Starting local Bazel server and connecting to it...
+INFO: Analysed 2 targets (11 packages loaded).
+INFO: Found 2 targets...
+INFO: Elapsed time: 5.095s, Critical Path: 0.97s
+INFO: 1 process: 1 worker.
+INFO: Build completed successfully, 3 total actions
+```
